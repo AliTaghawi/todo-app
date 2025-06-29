@@ -11,8 +11,10 @@ const SignForm = ({ data, setData, clickHandler, register = false }) => {
   };
 
   return (
-    <div className=" bg-white mt-32 mx-auto p-8 rounded-2xl w-[500px] text-center flex flex-col items-center gap-8">
-      <h2 className="text-xl font-bold text-neutral-700">Registration Form</h2>
+    <div className=" bg-white mt-20 mx-auto p-8 rounded-2xl w-[500px] text-center flex flex-col items-center gap-8">
+      <h2 className="text-xl font-bold text-neutral-700">
+        {register ? "Registration Form" : "LogIn Form"}
+      </h2>
       <input
         className={inputStyles}
         type="email"
@@ -43,14 +45,14 @@ const SignForm = ({ data, setData, clickHandler, register = false }) => {
         className="bg-neutral-300 py-2 px-5 rounded-lg cursor-pointer font-semibold text-neutral-700 hover:bg-neutral-200"
         onClick={clickHandler}
       >
-        Register
+        {register ? "Register" : "LogIn"}
       </button>
       <div className="flex gap-2">
         <p>
           {register ? "If you have a account?" : "If you don't have a account?"}
         </p>
-        <Link href={register ? "/singin" : "signup"} className="text-blue-700">
-          {register ? "SingIn" : "SignUp"}
+        <Link href={register ? "/signin" : "signup"} className="text-blue-700">
+          {register ? "SignIn" : "SignUp"}
         </Link>
       </div>
       <Toaster />
