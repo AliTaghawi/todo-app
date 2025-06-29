@@ -1,4 +1,4 @@
-"use client"
+"use client";
 import SignForm from "@/modules/SignForm";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
@@ -9,27 +9,35 @@ function SignUpPage() {
     email: "",
     password: "",
     confirmPassword: "",
-  })
+  });
 
-  const router = useRouter()
+  const router = useRouter();
 
   const clickHandler = async () => {
     const result = await fetch("/api/auth/register", {
       method: "POST",
       body: JSON.stringify(form),
-      headers: {"Content-Type": "application/json"}
-    })
-    const res = await result.json()
+      headers: { "Content-Type": "application/json" },
+    });
+    const res = await result.json();
+    console.log(res);
     if (res.error) {
-      toast.error(res.error)
+      toast.error(res.error);
     } else {
-      toast.success(res.message)
-      router.push("/signin")
+      toast.success(res.message);
+      setTimeout(() => {
+        router.push("/signin");
+      }, 1500);
     }
-  }
-  
+  };
+
   return (
-    <SignForm data={form} setData={setForm} register={true} clickHandler={clickHandler} />
+    <SignForm
+      data={form}
+      setData={setForm}
+      register={true}
+      clickHandler={clickHandler}
+    />
   );
 }
 
