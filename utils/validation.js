@@ -1,3 +1,5 @@
+import { isValidObjectId } from "mongoose";
+
 const Joi = require("joi");
 
 const signinSchema = Joi.object({
@@ -21,4 +23,13 @@ const todoSchema = Joi.object({
     .message("Invalid status!"),
 });
 
-export { signinSchema, registerSchema, todoSchema };
+const todoEditSchema = todoSchema.append({
+  id: Joi.required().custom((value, helper) => {
+    if (!isValidObjectId(value)) {
+      return helper.message("Invalid Id!");
+    }
+    return true;
+  }),
+});
+
+export { signinSchema, registerSchema, todoSchema, todoEditSchema };
