@@ -5,6 +5,7 @@ import { BsAlignStart } from "react-icons/bs";
 import { FiSettings } from "react-icons/fi";
 import { AiOutlineFileSearch } from "react-icons/ai";
 import { MdDoneAll } from "react-icons/md";
+import RadioButton from "components/elements/RadioButton";
 
 const textStyle = "bg-white py-0.5 px-2.5 rounded-md outline-0 w-[500px]";
 
@@ -23,6 +24,7 @@ const AddTodoFrom = () => {
   const statusHandler = (e) => {
     setData((prev) => ({ ...prev, status: e.target.value }));
   };
+  
   return (
     <div className="text-neutral-700">
       <div className="flex flex-col items-start mt-8">
@@ -49,18 +51,38 @@ const AddTodoFrom = () => {
         />
       </div>
       <div className="flex items-center gap-4 mt-5">
-        <div className="bg-orange-300 px-2 py-0.5 rounded-sm flex gap-2 ">
-          <label htmlFor="todo" className="flex gap-1 items-center">
-            <BsAlignStart /> Todo
-          </label>
-          <input
-            type="radio"
-            value="todo"
-            id="todo"
-            checked={data.status === "todo"}
-            onChange={statusHandler}
-          />
-        </div>
+        <RadioButton
+          title="Todo"
+          value="todo"
+          status={data.status}
+          statusHandler={statusHandler}
+        >
+          <BsAlignStart />
+        </RadioButton>
+        <RadioButton
+          title="In Progress"
+          value="inprogress"
+          status={data.status}
+          statusHandler={statusHandler}
+        >
+          <FiSettings />
+        </RadioButton>
+        <RadioButton
+          title="Review"
+          value="review"
+          status={data.status}
+          statusHandler={statusHandler}
+        >
+          <AiOutlineFileSearch />
+        </RadioButton>
+        <RadioButton
+          title="Done"
+          value="done"
+          status={data.status}
+          statusHandler={statusHandler}
+        >
+          <MdDoneAll />
+        </RadioButton>
       </div>
     </div>
   );
