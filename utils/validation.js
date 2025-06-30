@@ -12,4 +12,13 @@ const registerSchema = signinSchema.append({
     .messages({ "any.only": "Password must match" }),
 });
 
-export { signinSchema, registerSchema };
+const todoSchema = Joi.object({
+  title: Joi.string().required(),
+  description: Joi.string(),
+  status: Joi.string()
+    .required()
+    .regex(/todo|inprogress|done|review/)
+    .message("Invalid status!"),
+});
+
+export { signinSchema, registerSchema, todoSchema };

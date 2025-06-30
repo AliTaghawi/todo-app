@@ -15,10 +15,11 @@ const userSchema = new Schema(
     todos: {
       type: [
         {
-          todo: String,
+          title: String,
+          description: String,
           status: {
             type: String,
-            enum: "inprogress" | "done" | "review",
+            enum: "inprogress" | "done" | "review"| "todo",
             required: true,
           },
         },
