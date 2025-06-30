@@ -1,8 +1,9 @@
 "use client";
-import SignForm from "@/modules/SignForm";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { useSession } from "next-auth/react";
 import toast from "react-hot-toast";
+import SignForm from "@/modules/SignForm";
 
 function SignUpPage() {
   const [form, setForm] = useState({
@@ -12,6 +13,12 @@ function SignUpPage() {
   });
 
   const router = useRouter();
+
+  const { status } = useSession();
+
+  useEffect(() => {
+    if (status === "authenticated") router.replace("/");
+  }, [status]);
 
   const clickHandler = async () => {
     const result = await fetch("/api/auth/register", {

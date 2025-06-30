@@ -1,8 +1,8 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import { useState } from "react";
-import { signIn } from "next-auth/react";
+import { useEffect, useState } from "react";
+import { signIn, useSession } from "next-auth/react";
 import SignForm from "@/modules/SignForm";
 import toast from "react-hot-toast";
 
@@ -13,6 +13,12 @@ const SignInPage = () => {
   });
 
   const router = useRouter();
+
+  const { status } = useSession();
+
+  useEffect(() => {
+    if (status === "authenticated") router.replace("/");
+  }, [status]);
 
   const clickHandler = async () => {
     const res = await signIn("credentials", { ...form, redirect: false });

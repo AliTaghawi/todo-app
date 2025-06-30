@@ -8,6 +8,7 @@
       "@/modules/*": ["components/modules/*"],
       "@/templates/*": ["components/templates/*"],
       "@/utils/*": ["utils/*"],
+      "@/providers/*": ["providers/*"],
       "@/models/*": ["models/*"],
     }
   }
