@@ -16,7 +16,7 @@ const registerSchema = signinSchema.append({
 
 const todoSchema = Joi.object({
   title: Joi.string().required(),
-  description: Joi.string(),
+  description: Joi.string().allow("").optional(),
   status: Joi.string()
     .required()
     .regex(/todo|inprogress|done|review/)

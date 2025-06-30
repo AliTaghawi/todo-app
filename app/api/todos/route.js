@@ -37,6 +37,10 @@ export async function POST(req) {
 
     user.todos.push({ title, description, status });
     user.save();
+    return NextResponse.json(
+      { message: "Todo created successfully" },
+      { status: 201 }
+    );
   } catch (error) {
     console.log(error);
     return NextResponse.json(

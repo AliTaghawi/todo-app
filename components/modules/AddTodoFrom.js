@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import toast, { Toaster } from "react-hot-toast";
 import { BsAlignStart } from "react-icons/bs";
 import { FiSettings } from "react-icons/fi";
 import { AiOutlineFileSearch } from "react-icons/ai";
@@ -16,24 +17,39 @@ const AddTodoFrom = () => {
     status: "todo",
   });
 
-  const textChange = (e) => {
+  const changeHandler = (e) => {
     const { name, value } = e.target;
     setData((prev) => ({ ...prev, [name]: value }));
   };
 
-  const statusHandler = (e) => {
-    setData((prev) => ({ ...prev, status: e.target.value }));
+  const addHandler = async () => {
+    const result = await fetch("/api/todos", {
+      method: "POST",
+      body: JSON.stringify(data),
+      headers: { "Content-Type": "application/json" },
+    });
+    const res = await result.json();
+    if (res.error) {
+      toast.error(res.error);
+    } else {
+      toast.success(res.message);
+      setData({
+        title: "",
+        description: "",
+        status: "todo",
+      });
+    }
   };
-  
+
   return (
-    <div className="text-neutral-700">
+    <div className="text-neutral-700 w-[500px]">
       <div className="flex flex-col items-start mt-8">
         <label htmlFor="title">Title:</label>
         <input
           type="text"
           name="title"
           value={data.title}
-          onChange={textChange}
+          onChange={changeHandler}
           id="title"
           placeholder="title"
           className={textStyle}
@@ -44,18 +60,18 @@ const AddTodoFrom = () => {
         <textarea
           name="description"
           value={data.description}
-          onChange={textChange}
+          onChange={changeHandler}
           id="desc"
           placeholder="Description"
           className={`${textStyle} h-[100px]`}
         />
       </div>
-      <div className="flex items-center gap-4 mt-5">
+      <div className="flex items-center justify-between mt-5">
         <RadioButton
           title="Todo"
           value="todo"
           status={data.status}
-          statusHandler={statusHandler}
+          changeHandler={changeHandler}
         >
           <BsAlignStart />
         </RadioButton>
@@ -63,7 +79,7 @@ const AddTodoFrom = () => {
           title="In Progress"
           value="inprogress"
           status={data.status}
-          statusHandler={statusHandler}
+          changeHandler={changeHandler}
         >
           <FiSettings />
         </RadioButton>
@@ -71,7 +87,7 @@ const AddTodoFrom = () => {
           title="Review"
           value="review"
           status={data.status}
-          statusHandler={statusHandler}
+          changeHandler={changeHandler}
         >
           <AiOutlineFileSearch />
         </RadioButton>
@@ -79,11 +95,18 @@ const AddTodoFrom = () => {
           title="Done"
           value="done"
           status={data.status}
-          statusHandler={statusHandler}
+          changeHandler={changeHandler}
         >
           <MdDoneAll />
         </RadioButton>
       </div>
+      <button
+        className="mt-5 bg-neutral-400 text-neutral-900 px-10 py-1 rounded-md font-semibold w-full hover:bg-neutral-300 hover:outline-neutral-700 hover:outline-1"
+        onClick={addHandler}
+      >
+        Add
+      </button>
+      <Toaster />
     </div>
   );
 };

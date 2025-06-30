@@ -1,4 +1,4 @@
-const RadioButton = ({ title, value, status, statusHandler, children }) => {
+const RadioButton = ({ title, value, status, changeHandler, children }) => {
   const buttonColor = {
     todo: "bg-orange-400",
     inprogress: "bg-emerald-500",
@@ -14,9 +14,10 @@ const RadioButton = ({ title, value, status, statusHandler, children }) => {
       <input
         type="radio"
         value={value}
+        name="status"
         id={value}
         checked={status === value}
-        onChange={statusHandler}
+        onChange={changeHandler}
       />
     </div>
   );

@@ -19,7 +19,7 @@ const userSchema = new Schema(
           description: String,
           status: {
             type: String,
-            enum: "inprogress" | "done" | "review"| "todo",
+            enum: ["inprogress", "done", "review", "todo"],
             required: true,
           },
         },
