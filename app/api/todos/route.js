@@ -55,6 +55,7 @@ export async function GET(req) {
     await connectDB();
 
     const session = await getServerSession(req);
+    console.log(session)
     if (!session) {
       return NextResponse.json(
         { error: "You are unauthorized!" },
