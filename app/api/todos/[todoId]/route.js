@@ -27,7 +27,7 @@ export async function GET(req, context) {
       return NextResponse.json({ error: `Can't find todo with Id:(${todoId}) in your todos` }, { status: 404 });
     }
 
-    return NextResponse.json({})
+    return NextResponse.json({todo}, {status: 200})
 
   } catch (error) {
     console.log(error);

@@ -55,7 +55,6 @@ export async function GET(req) {
     await connectDB();
 
     const session = await getServerSession(req);
-    console.log(session)
     if (!session) {
       return NextResponse.json(
         { error: "You are unauthorized!" },
@@ -119,10 +118,9 @@ export async function PATCH(req) {
         },
       }
     );
-    console.log(result);
 
     return NextResponse.json(
-      { message: "Todo successfully updated" },
+      { message: "Todo updated successfully" },
       { status: 200 }
     );
   } catch (error) {
