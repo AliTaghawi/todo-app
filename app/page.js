@@ -1,8 +1,9 @@
+import HomePage from "@/templates/HomePage";
 
-export default function Home() {
+export default async function Home() {
+  const res = await fetch("http://localhost:3000/api/todos")
+  const todos = await res.json()
   return (
-    <div>
-      <h1>Todo app</h1>
-    </div>
+    <HomePage todos={todos}/>
   );
 }
