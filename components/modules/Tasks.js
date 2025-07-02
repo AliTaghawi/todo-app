@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { RiMastodonLine } from "react-icons/ri";
 import { CiEdit } from "react-icons/ci";
 
@@ -8,10 +9,16 @@ const Tasks = ({ data, fetchTodos, next, back }) => {
     review: "bg-blue-600",
     done: "bg-cyan-500",
   };
-  
-  const editHandler = () => {}
-  const nextHandler = () => {}
-  const backHandler = () => {}
+
+  const statusHandler = async (todo, status) => {
+    const result = await fetch("/api/todos/", {
+      method: "PATCH",
+      body: JSON.stringify({...todo, status}), 
+      headers: {"Content-Type": "application/json"}
+    })
+    const res = await result.json()
+    fetchTodos()
+  }
 
   return (
     <>
@@ -26,9 +33,9 @@ const Tasks = ({ data, fetchTodos, next, back }) => {
                 buttonColor[todo.status]
               } block h-1 w-20 rounded-sm mb-2`}
             ></span>
-            <button onClick={editHandler}>
+            <Link href={`/edit-todo/${todo._id}`}>
               <CiEdit className="text-xl" />
-            </button>
+            </Link>
           </div>
           <RiMastodonLine className="" />
           <h4 className="text-sm font-semibold">{todo.title}</h4>
@@ -37,7 +44,7 @@ const Tasks = ({ data, fetchTodos, next, back }) => {
             {back ? (
               <button
                 className={`text-sm px-4 py-0.5 rounded-md text-white ${buttonColor[back]}`}
-                onClick={backHandler}
+                onClick={() => {statusHandler(todo, back)}}
               >
                 Back
               </button>
@@ -45,7 +52,7 @@ const Tasks = ({ data, fetchTodos, next, back }) => {
             {next ? (
               <button
                 className={`text-sm px-4 py-0.5 rounded-md text-white ${buttonColor[next]}`}
-                onClick={nextHandler}
+                onClick={() => {statusHandler(todo, next)}}
               >
                 Next
               </button>

@@ -97,10 +97,10 @@ export async function PATCH(req) {
       return NextResponse.json({ error: "Can't find user!" }, { status: 404 });
     }
 
-    const { id, title, description, status } = await req.json();
+    const { _id, title, description, status } = await req.json();
 
     try {
-      await todoEditSchema.validateAsync({ id, title, description, status });
+      await todoEditSchema.validateAsync({ _id, title, description, status });
     } catch (error) {
       console.log(error.details[0]);
       return NextResponse.json(
@@ -110,7 +110,7 @@ export async function PATCH(req) {
     }
 
     const result = await User.updateOne(
-      { "todos._id": id },
+      { "todos._id": _id },
       {
         $set: {
           "todos.$.title": title,

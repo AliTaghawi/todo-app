@@ -24,7 +24,7 @@ const todoSchema = Joi.object({
 });
 
 const todoEditSchema = todoSchema.append({
-  id: Joi.required().custom((value, helper) => {
+  _id: Joi.required().custom((value, helper) => {
     if (!isValidObjectId(value)) {
       return helper.message("Invalid Id!");
     }
