@@ -8,8 +8,11 @@ import { AiOutlineFileSearch } from "react-icons/ai";
 import { MdDoneAll } from "react-icons/md";
 import RadioButton from "components/elements/RadioButton";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
 
 const textStyle = "bg-white py-0.5 px-2.5 rounded-md outline-0 w-[500px]";
+const buttonStyle =
+  "mt-5 bg-neutral-400 text-neutral-900 px-10 py-1 rounded-md font-semibold hover:bg-neutral-300 hover:outline-neutral-700 hover:outline-1";
 
 const AddTodoFrom = ({ todoId }) => {
   const [data, setData] = useState({
@@ -22,7 +25,7 @@ const AddTodoFrom = ({ todoId }) => {
     if (todoId) fetchTodo(todoId);
   }, []);
 
-  const router = useRouter()
+  const router = useRouter();
 
   async function fetchTodo(id) {
     const result = await fetch(`/api/todos/${id}`);
@@ -66,7 +69,7 @@ const AddTodoFrom = ({ todoId }) => {
     } else {
       toast.success(res.message);
       setTimeout(() => {
-        router.push('/')
+        router.push("/");
       }, 1000);
     }
   };
@@ -131,17 +134,19 @@ const AddTodoFrom = ({ todoId }) => {
         </RadioButton>
       </div>
       {todoId ? (
-        <button
-          className="mt-5 bg-neutral-400 text-neutral-900 px-10 py-1 rounded-md font-semibold w-full hover:bg-neutral-300 hover:outline-neutral-700 hover:outline-1"
-          onClick={editHandler}
-        >
-          Edit
-        </button>
+        <div className="flex justify-between items-center">
+          <button className={`${buttonStyle}`} onClick={editHandler}>
+            Edit
+          </button>
+          <button
+            className={`${buttonStyle} text-center`}
+            onClick={() => router.push("/")}
+          >
+            Cancel
+          </button>
+        </div>
       ) : (
-        <button
-          className="mt-5 bg-neutral-400 text-neutral-900 px-10 py-1 rounded-md font-semibold w-full hover:bg-neutral-300 hover:outline-neutral-700 hover:outline-1"
-          onClick={addHandler}
-        >
+        <button className={`${buttonStyle} w-full`} onClick={addHandler}>
           Add
         </button>
       )}
