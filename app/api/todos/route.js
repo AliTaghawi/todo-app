@@ -1,7 +1,8 @@
 import { NextResponse } from "next/server";
 import { getServerSession } from "next-auth";
+import { isValidObjectId } from "mongoose";
 import connectDB from "@/utils/connectDB";
-import User from "@/models/User";
+import TodoUser from "@/models/TodoUser";
 import { todoEditSchema, todoSchema } from "@/utils/validation";
 import { sortTodos } from "@/utils/helperFuncs";
 
@@ -17,7 +18,7 @@ export async function POST(req) {
       );
     }
 
-    const user = await User.findOne({ email: session.user.email });
+    const user = await TodoUser.findOne({ email: session.user.email });
     if (!user) {
       return NextResponse.json({ error: "Can't find user!" }, { status: 404 });
     }
@@ -62,7 +63,7 @@ export async function GET(req) {
       );
     }
 
-    const user = await User.findOne({ email: session.user.email });
+    const user = await TodoUser.findOne({ email: session.user.email });
     if (!user) {
       return NextResponse.json({ error: "Can't find user!" }, { status: 404 });
     }
@@ -91,7 +92,7 @@ export async function PATCH(req) {
       );
     }
 
-    const user = await User.findOne({ email: session.user.email });
+    const user = await TodoUser.findOne({ email: session.user.email });
     if (!user) {
       return NextResponse.json({ error: "Can't find user!" }, { status: 404 });
     }
@@ -108,7 +109,7 @@ export async function PATCH(req) {
       );
     }
 
-    const result = await User.updateOne(
+    const result = await TodoUser.updateOne(
       { "todos._id": _id },
       {
         $set: {
@@ -121,6 +122,46 @@ export async function PATCH(req) {
 
     return NextResponse.json(
       { message: "Todo updated successfully" },
+      { status: 200 }
+    );
+  } catch (error) {
+    console.log(error);
+    return NextResponse.json(
+      { error: "Internal server error!" },
+      { status: 500 }
+    );
+  }
+}
+
+export async function DELETE(req) {
+  try {
+    await connectDB();
+
+    const session = await getServerSession(req);
+    if (!session) {
+      return NextResponse.json(
+        { error: "You are unauthorized!" },
+        { status: 403 }
+      );
+    }
+
+    const user = await TodoUser.findOne({ email: session.user.email });
+    if (!user) {
+      return NextResponse.json({ error: "Can't find user!" }, { status: 404 });
+    }
+
+    const { _id } = await req.json();
+
+    if (!isValidObjectId(_id)) {
+      return NextResponse.json({ error: "Id is not valid!" }, { status: 422 });
+    }
+
+    const result = await TodoUser.deleteOne({ "todos._id": _id });
+
+    console.log(result);
+
+    return NextResponse.json(
+      { message: "Todo deleted successfully" },
       { status: 200 }
     );
   } catch (error) {

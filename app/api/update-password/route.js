@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import { getServerSession } from "next-auth";
-import User from "@/models/User";
+import TodoUser from "@/models/TodoUser";
 import connectDB from "@/utils/connectDB";
 import { hashPassword, verifyPassword } from "@/utils/auth";
 import { changePasswordSchema } from "@/utils/validation";
@@ -17,7 +17,7 @@ export async function PATCH(req) {
       );
     }
 
-    const user = await User.findOne({ email: session.user.email });
+    const user = await TodoUser.findOne({ email: session.user.email });
     if (!user) {
       return NextResponse.json({ error: "Can't find user!" }, { status: 404 });
     }

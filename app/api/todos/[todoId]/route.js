@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import { getServerSession } from "next-auth";
-import User from "@/models/User";
+import TodoUser from "@/models/TodoUser";
 import connectDB from "@/utils/connectDB";
 
 export async function GET(req, context) {
@@ -15,7 +15,7 @@ export async function GET(req, context) {
       );
     }
 
-    const user = await User.findOne({ email: session.user.email });
+    const user = await TodoUser.findOne({ email: session.user.email });
     if (!user) {
       return NextResponse.json({ error: "Can't find user!" }, { status: 404 });
     }

@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import User from "@/models/User";
+import TodoUser from "@/models/TodoUser";
 import { hashPassword } from "@/utils/auth";
 import connectDB from "@/utils/connectDB";
 import { registerSchema } from "@/utils/validation";
@@ -20,7 +20,7 @@ export async function POST(req) {
       );
     }
 
-    const existedUser = await User.findOne({ email });
+    const existedUser = await TodoUser.findOne({ email });
     if (existedUser) {
       return NextResponse.json(
         { error: "User already existed!" },
@@ -29,7 +29,7 @@ export async function POST(req) {
     }
 
     const hashedPassword = await hashPassword(password);
-    const user = await User.create({ email, password: hashedPassword });
+    const user = await TodoUser.create({ email, password: hashedPassword });
     console.log(user)
 
     return NextResponse.json(

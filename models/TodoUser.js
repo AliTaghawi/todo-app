@@ -1,6 +1,6 @@
 import { Schema, model, models } from "mongoose";
 
-const userSchema = new Schema(
+const todoUserSchema = new Schema(
   {
     email: {
       type: String,
@@ -30,6 +30,6 @@ const userSchema = new Schema(
   { timestamps: true }
 );
 
-const User = models.User || model("User", userSchema);
+const TodoUser = models.TodoUser || model("TodoUser", todoUserSchema);
 
-export default User;
+export default TodoUser;

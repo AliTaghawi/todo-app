@@ -1,9 +1,9 @@
-import User from "@/models/User";
+import NextAuth from "next-auth";
+import CredentialsProvider from "next-auth/providers/credentials";
+import TodoUser from "@/models/TodoUser";
 import { verifyPassword } from "@/utils/auth";
 import connectDB from "@/utils/connectDB";
 import { signinSchema } from "@/utils/validation";
-import NextAuth from "next-auth";
-import CredentialsProvider from "next-auth/providers/credentials";
 
 export const authOption = {
   session: { strategy: "jwt" },
@@ -27,7 +27,7 @@ export const authOption = {
           throw new Error(error.details[0].message);
         }
 
-        const user = await User.findOne({ email });
+        const user = await TodoUser.findOne({ email });
         if (!user) throw new Error("User doesn't exist please register first");
 
         const isValid = await verifyPassword(password, user.password);
