@@ -10,7 +10,7 @@ import RadioButton from "components/elements/RadioButton";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 
-const textStyle = "bg-white py-0.5 px-2.5 rounded-md outline-0 w-[500px]";
+const textStyle = "bg-white py-0.5 px-2.5 rounded-md outline-0 w-full";
 const buttonStyle =
   "mt-5 bg-neutral-400 text-neutral-900 px-10 py-1 rounded-md font-semibold hover:bg-neutral-300 hover:outline-neutral-700 hover:outline-1";
 
@@ -75,7 +75,7 @@ const AddTodoFrom = ({ todoId }) => {
   };
 
   return (
-    <div className="text-neutral-700 w-[500px]">
+    <div className="text-neutral-700 w-full mobile:w-[500px]">
       <div className="flex flex-col items-start mt-8">
         <label htmlFor="title">Title:</label>
         <input
@@ -99,7 +99,7 @@ const AddTodoFrom = ({ todoId }) => {
           className={`${textStyle} h-[100px]`}
         />
       </div>
-      <div className="flex items-center justify-between mt-5">
+      <div className="flex items-center justify-between mt-5 max-mobile:flex-col max-mobile:items-start max-mobile:gap-5">
         <RadioButton
           title="Todo"
           value="todo"

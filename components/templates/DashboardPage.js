@@ -70,7 +70,7 @@ const DashboardPage = () => {
   };
 
   return (
-    <div className="w-fit min-w-[500px]">
+    <div className="w-fit mobile:min-w-[500px] min-w-full">
       <div className="text-xl font-bold flex items-center gap-2">
         <CgProfile />
         <h2>Profile</h2>
@@ -90,9 +90,9 @@ const DashboardPage = () => {
       {profileData.completed && !edit ? (
         <>
           <ProfileDetails data={profileData} />
-          <div className="flex justify-between items-center gap-8">
+          <div className="flex justify-between items-center gap-8 max-sm:flex-col max-sm:gap-0">
             <button
-              className={buttonStyle}
+              className={`${buttonStyle} max-sm:w-full`}
               onClick={() => {
                 setUpdatePass(true);
                 setDel(false);
@@ -102,7 +102,7 @@ const DashboardPage = () => {
               Change password
             </button>
             <button
-              className={`${buttonStyle} bg-red-300 text-red-800 hover:bg-red-200 hover:outline-red-800`}
+              className={`${buttonStyle} bg-red-300 text-red-800 hover:bg-red-200 hover:outline-red-800 max-sm:w-full`}
               onClick={() => {
                 setDel(true);
                 setUpdatePass(false);

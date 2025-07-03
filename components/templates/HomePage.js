@@ -4,9 +4,11 @@ import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { useSession } from "next-auth/react";
 import Tasks from "@/modules/Tasks";
+import TaskList from "@/modules/TaskList";
 
-const todoContainersStyle = "w-full bg-white rounded-lg";
-const bannerStyle = "text-white font-bold w-full text-center rounded-t-lg py-0.5 px-2";
+const todoContainersStyle = "bg-white rounded-lg w-full";
+const bannerStyle =
+  "text-white font-bold w-full text-center rounded-t-lg py-0.5 px-2";
 
 function HomePage() {
   const [todos, setTodos] = useState();
@@ -28,33 +30,37 @@ function HomePage() {
   };
 
   return (
-    <div className="flex justify-between items-start gap-4">
-      <div className={todoContainersStyle}>
-        <p className={`${bannerStyle} bg-orange-400`}>Todo</p>
-        <Tasks data={todos?.todo} fetchTodos={fetchTodos} next="inprogress" />
-      </div>
-      <div className={todoContainersStyle}>
-        <p className={`${bannerStyle} bg-emerald-500`}>In Progress</p>
-        <Tasks
-          data={todos?.inprogress}
-          fetchTodos={fetchTodos}
-          next="review"
-          back="todo"
-        />
-      </div>
-      <div className={todoContainersStyle}>
-        <p className={`${bannerStyle} bg-blue-600`}>Review</p>
-        <Tasks
-          data={todos?.review}
-          fetchTodos={fetchTodos}
-          next="done"
-          back="inprogress"
-        />
-      </div>
-      <div className={todoContainersStyle}>
-        <p className={`${bannerStyle} bg-cyan-500`}>Done</p>
-        <Tasks data={todos?.done} fetchTodos={fetchTodos} back="review" />
-      </div>
+    <div className="grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 items-start gap-4 max-w-[1400px] mx-auto">
+      <TaskList
+        data={todos?.todo}
+        fetchTodos={fetchTodos}
+        next="inprogress"
+        color="todo"
+        title="Todo"
+      />
+      <TaskList
+        data={todos?.inprogress}
+        fetchTodos={fetchTodos}
+        next="review"
+        back="todo"
+        color="inprogress"
+        title="In Progress"
+      />
+      <TaskList
+        data={todos?.review}
+        fetchTodos={fetchTodos}
+        next="done"
+        back="inprogress"
+        color="review"
+        title="Review"
+      />
+      <TaskList
+        data={todos?.done}
+        fetchTodos={fetchTodos}
+        back="review"
+        color="done"
+        title="Done"
+      />
     </div>
   );
 }

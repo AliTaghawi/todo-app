@@ -3,15 +3,11 @@ import { RiMastodonLine, RiDeleteBin2Line } from "react-icons/ri";
 import { CiEdit } from "react-icons/ci";
 import { BiLeftArrow, BiRightArrow } from "react-icons/bi";
 import toast from "react-hot-toast";
+import { buttonColor } from "@/utils/constants";
+
+const buttonStyle = "text-sm px-4 py-0.5 rounded-md text-white flex items-center gap-0.5 hover:opacity-80 cursor-pointer";
 
 const Tasks = ({ data, fetchTodos, next, back }) => {
-  const buttonColor = {
-    todo: "bg-orange-400",
-    inprogress: "bg-emerald-500",
-    review: "bg-blue-600",
-    done: "bg-cyan-500",
-  };
-
   const statusHandler = async (todo, status) => {
     const result = await fetch("/api/todos/", {
       method: "PATCH",
@@ -40,12 +36,12 @@ const Tasks = ({ data, fetchTodos, next, back }) => {
   return (
     <>
       {!data?.length ? (
-        <p className="text-center my-2">No task to show in this filed!</p>
+        <p className="text-center m-2">No task to show in this filed!</p>
       ) : null}
       {data?.map((todo) => (
         <div
           key={todo._id}
-          className=" shadow-[0_2px_5px] shadow-black/30 p-2 m-4 mt-8 rounded-md text-neutral-800"
+          className=" shadow-[0_2px_5px] shadow-black/30 p-2 m-4 mt-8 rounded-md text-neutral-800 min-w-[200px]"
         >
           <div className="flex justify-between items-center">
             <span
@@ -72,7 +68,7 @@ const Tasks = ({ data, fetchTodos, next, back }) => {
           <div className="flex justify-between items-center mt-2">
             {back ? (
               <button
-                className={`text-sm px-4 py-0.5 rounded-md text-white flex items-center gap-0.5 ${buttonColor[back]}`}
+                className={`${buttonStyle} ${buttonColor[back]}`}
                 onClick={() => {
                   statusHandler(todo, back);
                 }}
@@ -83,7 +79,7 @@ const Tasks = ({ data, fetchTodos, next, back }) => {
             ) : null}
             {next ? (
               <button
-                className={`text-sm px-4 py-0.5 rounded-md text-white flex items-center gap-0.5 ml-auto ${buttonColor[next]}`}
+                className={`${buttonStyle} ml-auto ${buttonColor[next]}`}
                 onClick={() => {
                   statusHandler(todo, next);
                 }}

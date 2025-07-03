@@ -6,7 +6,7 @@ const ProfileInput = ({ title, type, name, value, onChange }) => {
         type={type}
         id={name}
         name={name}
-        className="bg-white py-0.5 px-2.5 rounded-md outline-0 w-[500px]"
+        className="bg-white py-0.5 px-2.5 rounded-md outline-0 mobile:w-[500px] w-full"
         value={value}
         onChange={onChange}
       />
