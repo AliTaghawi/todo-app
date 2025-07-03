@@ -1,8 +1,9 @@
 import ProfileInput from "components/elements/ProfileInput";
 
-const buttonStyle = "py-0.5 px-4 rounded-md mt-8";
+const buttonStyle =
+  "bg-neutral-400 text-neutral-900 hover:bg-neutral-300 hover:outline-neutral-900 hover:outline-1 py-0.5 px-4 rounded-md mt-8";
 
-const ProfileForm = ({ data, changeHandler, edit }) => {
+const ProfileForm = ({ data, changeHandler, edit, setEdit, saveHandler }) => {
   return (
     <div>
       <ProfileInput
@@ -26,19 +27,11 @@ const ProfileForm = ({ data, changeHandler, edit }) => {
         value={data.password}
         onChange={changeHandler}
       />
-      <div>
-        <button
-          className={`bg-neutral-400 text-neutral-900 ${buttonStyle} ${
-            edit ? null : "w-[500px]"
-          }`}
-        >
+      <div className="flex justify-between items-center">
+        <button className={`${buttonStyle} ${edit ? null : "w-[500px]"}`} onClick={saveHandler} >
           Save
         </button>
-        {edit ? (
-          <button className={`bg-neutral-400 text-neutral-900 ${buttonStyle}`}>
-            Cancel
-          </button>
-        ) : null}
+        {edit ? <button className={buttonStyle} onClick={() => setEdit(false)}>Cancel</button> : null}
       </div>
     </div>
   );
