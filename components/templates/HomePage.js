@@ -1,12 +1,21 @@
 "use client";
-import Tasks from "@/modules/Tasks";
+
 import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
+import { useSession } from "next-auth/react";
+import Tasks from "@/modules/Tasks";
 
 const todoContainersStyle = "w-full bg-white rounded-lg";
-const bannerStyle =
-  "text-white font-bold w-full text-center rounded-t-lg py-0.5 px-2";
+const bannerStyle = "text-white font-bold w-full text-center rounded-t-lg py-0.5 px-2";
+
 function HomePage() {
   const [todos, setTodos] = useState();
+  const { status } = useSession();
+  const router = useRouter();
+
+  useEffect(() => {
+    if (status === "unauthenticated") router.replace("/signin");
+  }, [status]);
 
   useEffect(() => {
     fetchTodos();
@@ -26,11 +35,21 @@ function HomePage() {
       </div>
       <div className={todoContainersStyle}>
         <p className={`${bannerStyle} bg-emerald-500`}>In Progress</p>
-        <Tasks data={todos?.inprogress} fetchTodos={fetchTodos} next="review" back="todo" />
+        <Tasks
+          data={todos?.inprogress}
+          fetchTodos={fetchTodos}
+          next="review"
+          back="todo"
+        />
       </div>
       <div className={todoContainersStyle}>
         <p className={`${bannerStyle} bg-blue-600`}>Review</p>
-        <Tasks data={todos?.review} fetchTodos={fetchTodos} next="done" back="inprogress" />
+        <Tasks
+          data={todos?.review}
+          fetchTodos={fetchTodos}
+          next="done"
+          back="inprogress"
+        />
       </div>
       <div className={todoContainersStyle}>
         <p className={`${bannerStyle} bg-cyan-500`}>Done</p>

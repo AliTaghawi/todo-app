@@ -28,10 +28,10 @@ const ProfileForm = ({ data, changeHandler, edit, setEdit, saveHandler }) => {
         onChange={changeHandler}
       />
       <div className="flex justify-between items-center">
+        {edit ? <button className={buttonStyle} onClick={() => setEdit(false)}>Cancel</button> : null}
         <button className={`${buttonStyle} ${edit ? null : "w-[500px]"}`} onClick={saveHandler} >
           Save
         </button>
-        {edit ? <button className={buttonStyle} onClick={() => setEdit(false)}>Cancel</button> : null}
       </div>
     </div>
   );

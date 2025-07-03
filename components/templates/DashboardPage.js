@@ -1,5 +1,8 @@
 "use client";
+
 import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
+import { useSession } from "next-auth/react";
 import toast, { Toaster } from "react-hot-toast";
 import { CgProfile } from "react-icons/cg";
 import { CiEdit } from "react-icons/ci";
@@ -18,6 +21,12 @@ const DashboardPage = () => {
   });
   const [edit, setEdit] = useState(false);
   const [updatePass, setUpdatePass] = useState(false);
+  const { status } = useSession();
+  const router = useRouter();
+
+  useEffect(() => {
+    if (status === "unauthenticated") router.replace("/signin");
+  }, [status]);
 
   useEffect(() => {
     fetchUserData();
@@ -92,7 +101,7 @@ const DashboardPage = () => {
           saveHandler={saveHandler}
         />
       )}
-      {updatePass ? <ChangePassword setUpdatePass={setUpdatePass}/> : null}
+      {updatePass ? <ChangePassword setUpdatePass={setUpdatePass} /> : null}
       <Toaster />
     </div>
   );

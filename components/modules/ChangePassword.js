@@ -56,11 +56,11 @@ const ChangePassword = ({ setUpdatePass }) => {
         onChange={changeHandler}
       />
       <div className="flex justify-between items-center">
-        <button className={buttonStyle} onClick={updateHandler}>
-          Change
-        </button>
         <button className={buttonStyle} onClick={() => setUpdatePass(false)}>
           Cancel
+        </button>
+        <button className={buttonStyle} onClick={updateHandler}>
+          Change
         </button>
       </div>
     </div>
