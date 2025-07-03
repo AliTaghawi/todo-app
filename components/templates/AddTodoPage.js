@@ -1,10 +1,12 @@
 import { redirect } from "next/navigation";
-import { getSession } from "next-auth/react";
+import { getServerSession } from "next-auth";
 import { GrAddCircle } from "react-icons/gr";
 import AddTodoFrom from "@/modules/AddTodoFrom";
+import { authOption } from "@/app/api/auth/[...nextauth]/route";
 
 const AddTodoPage = async () => {
-  const session = await getSession();
+  const session = await getServerSession(authOption);
+  console.log(session)
   if (!session) redirect("/signin");
   return (
     <div>

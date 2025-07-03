@@ -1,10 +1,11 @@
-import AddTodoFrom from "@/modules/AddTodoFrom";
-import { getSession } from "next-auth/react";
-import { redirect } from "next/dist/server/api-utils";
+import { getServerSession } from "next-auth";
+import { redirect } from "next/navigation";
+import { authOption } from "@/app/api/auth/[...nextauth]/route";
 import { CiEdit } from "react-icons/ci";
+import AddTodoFrom from "@/modules/AddTodoFrom";
 
 const EditTodoPage = async ({todoId}) => {
-  const session = await getSession()
+  const session = await getServerSession(authOption)
   if (!session) redirect('/signin')
   return (
     <div>

@@ -81,3 +81,44 @@ export async function PATCH(req) {
     );
   }
 }
+
+export async function DELETE(req) {
+  try {
+    await connectDB();
+
+    const session = await getServerSession(req);
+    if (!session) {
+      return NextResponse.json(
+        { error: "You are unauthorized!" },
+        { status: 403 }
+      );
+    }
+
+    const user = await User.findOne({ email: session.user.email });
+    if (!user) {
+      return NextResponse.json({ error: "Can't find user!" }, { status: 404 });
+    }
+
+    const { password } = await req.json();
+
+    const isValid = await verifyPassword(password, user.password);
+    if (!isValid) {
+      return NextResponse.json(
+        { error: "Password is not correct!" },
+        { status: 422 }
+      );
+    }
+
+    const result = await User.deleteOne({email: user.email})
+    console.log(result)
+
+    return NextResponse.json({message: "User deleted successfully"}, {status: 200})
+    
+  } catch (error) {
+    console.log(error);
+    return NextResponse.json(
+      { error: "Internal server error!" },
+      { status: 500 }
+    );
+  }
+}

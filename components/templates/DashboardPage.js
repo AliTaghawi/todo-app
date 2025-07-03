@@ -21,6 +21,7 @@ const DashboardPage = () => {
   });
   const [edit, setEdit] = useState(false);
   const [updatePass, setUpdatePass] = useState(false);
+  const [del, setDel] = useState(false)
   const { status } = useSession();
   const router = useRouter();
 
@@ -87,6 +88,7 @@ const DashboardPage = () => {
             </button>
             <button
               className={`${buttonStyle} bg-red-300 text-red-800 hover:bg-red-200 hover:outline-red-800`}
+              onClick={() => setDel(true)}
             >
               Delete account
             </button>
