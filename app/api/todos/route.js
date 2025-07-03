@@ -156,10 +156,9 @@ export async function DELETE(req) {
       return NextResponse.json({ error: "Id is not valid!" }, { status: 422 });
     }
 
-    const result = await TodoUser.deleteOne({ "todos._id": _id });
-
-    console.log(result);
-
+    await user.todos.pull({_id});
+    await user.save()
+    
     return NextResponse.json(
       { message: "Todo deleted successfully" },
       { status: 200 }

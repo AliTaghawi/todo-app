@@ -65,7 +65,7 @@ export async function PATCH(req) {
 
     user.name = name.trim();
     user.lastName = lastName.trim();
-    user.save();
+    await user.save();
 
     return NextResponse.json(
       {

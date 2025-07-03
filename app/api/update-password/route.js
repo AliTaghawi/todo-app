@@ -44,7 +44,7 @@ export async function PATCH(req) {
 
     const hashedPassword = await hashPassword(newPassword);
     user.password = hashedPassword;
-    user.save();
+    await user.save();
 
     return NextResponse.json(
       { message: "Password updated successfully" },

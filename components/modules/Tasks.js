@@ -1,7 +1,8 @@
 import Link from "next/link";
-import { RiMastodonLine } from "react-icons/ri";
+import { RiMastodonLine, RiDeleteBin2Line } from "react-icons/ri";
 import { CiEdit } from "react-icons/ci";
 import { BiLeftArrow, BiRightArrow } from "react-icons/bi";
+import toast from "react-hot-toast";
 
 const Tasks = ({ data, fetchTodos, next, back }) => {
   const buttonColor = {
@@ -14,16 +15,33 @@ const Tasks = ({ data, fetchTodos, next, back }) => {
   const statusHandler = async (todo, status) => {
     const result = await fetch("/api/todos/", {
       method: "PATCH",
-      body: JSON.stringify({...todo, status}), 
-      headers: {"Content-Type": "application/json"}
-    })
-    const res = await result.json()
-    fetchTodos()
-  }
+      body: JSON.stringify({ ...todo, status }),
+      headers: { "Content-Type": "application/json" },
+    });
+    const res = await result.json();
+    fetchTodos();
+  };
+
+  const deleteHandler = async (_id) => {
+    const result = await fetch("/api/todos", {
+      method: "DELETE",
+      body: JSON.stringify({ _id }),
+      headers: { "Content-Type": "application/json" },
+    });
+    const res = await result.json();
+    if (res.error) {
+      toast.error(res.error);
+    } else {
+      toast.success(res.message);
+      fetchTodos();
+    }
+  };
 
   return (
     <>
-      {!data?.length ? <p className="text-center my-2">No task to show in this filed!</p> : null}
+      {!data?.length ? (
+        <p className="text-center my-2">No task to show in this filed!</p>
+      ) : null}
       {data?.map((todo) => (
         <div
           key={todo._id}
@@ -35,9 +53,18 @@ const Tasks = ({ data, fetchTodos, next, back }) => {
                 buttonColor[todo.status]
               } block h-1 w-20 rounded-sm mb-2`}
             ></span>
-            <Link href={`/edit-todo/${todo._id}`}>
-              <CiEdit className="text-xl" />
-            </Link>
+            <div className="flex gap-2">
+              <button
+                onClick={() => {
+                  deleteHandler(todo._id);
+                }}
+              >
+                <RiDeleteBin2Line />
+              </button>
+              <Link href={`/edit-todo/${todo._id}`}>
+                <CiEdit className="text-xl" />
+              </Link>
+            </div>
           </div>
           <RiMastodonLine />
           <h4 className="text-sm font-semibold">{todo.title}</h4>
@@ -46,7 +73,9 @@ const Tasks = ({ data, fetchTodos, next, back }) => {
             {back ? (
               <button
                 className={`text-sm px-4 py-0.5 rounded-md text-white flex items-center gap-0.5 ${buttonColor[back]}`}
-                onClick={() => {statusHandler(todo, back)}}
+                onClick={() => {
+                  statusHandler(todo, back);
+                }}
               >
                 <BiLeftArrow />
                 Back
@@ -55,7 +84,9 @@ const Tasks = ({ data, fetchTodos, next, back }) => {
             {next ? (
               <button
                 className={`text-sm px-4 py-0.5 rounded-md text-white flex items-center gap-0.5 ml-auto ${buttonColor[next]}`}
-                onClick={() => {statusHandler(todo, next)}}
+                onClick={() => {
+                  statusHandler(todo, next);
+                }}
               >
                 Next
                 <BiRightArrow />
