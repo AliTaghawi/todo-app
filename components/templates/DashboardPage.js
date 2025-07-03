@@ -5,6 +5,7 @@ import { CgProfile } from "react-icons/cg";
 import { CiEdit } from "react-icons/ci";
 import ProfileForm from "@/modules/ProfileForm";
 import ProfileDetails from "@/modules/ProfileDetails";
+import ChangePassword from "@/modules/ChangePassword";
 
 const buttonStyle =
   "bg-neutral-400 text-neutral-900 hover:bg-neutral-300 hover:outline-neutral-900 hover:outline-1 py-0.5 px-4 rounded-md mt-8";
@@ -16,6 +17,7 @@ const DashboardPage = () => {
     password: "",
   });
   const [edit, setEdit] = useState(false);
+  const [updatePass, setUpdatePass] = useState(false);
 
   useEffect(() => {
     fetchUserData();
@@ -54,7 +56,7 @@ const DashboardPage = () => {
   };
 
   return (
-    <div className="w-fit">
+    <div className="w-fit min-w-[500px]">
       <div className="text-xl font-bold flex items-center gap-2">
         <CgProfile />
         <h2>Profile</h2>
@@ -71,8 +73,14 @@ const DashboardPage = () => {
         <>
           <ProfileDetails data={profileData} />
           <div className="flex justify-between items-center gap-8">
-            <button className={buttonStyle}>Change password</button>
-            <button className={`${buttonStyle} bg-red-300 text-red-800 hover:bg-red-200 hover:outline-red-800`}>Delete account</button>
+            <button className={buttonStyle} onClick={() => setUpdatePass(true)}>
+              Change password
+            </button>
+            <button
+              className={`${buttonStyle} bg-red-300 text-red-800 hover:bg-red-200 hover:outline-red-800`}
+            >
+              Delete account
+            </button>
           </div>
         </>
       ) : (
@@ -84,6 +92,7 @@ const DashboardPage = () => {
           saveHandler={saveHandler}
         />
       )}
+      {updatePass ? <ChangePassword setUpdatePass={setUpdatePass}/> : null}
       <Toaster />
     </div>
   );
