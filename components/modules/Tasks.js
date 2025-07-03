@@ -23,6 +23,7 @@ const Tasks = ({ data, fetchTodos, next, back }) => {
 
   return (
     <>
+      {!data?.length ? <p className="text-center my-2">No task to show in this filed!</p> : null}
       {data?.map((todo) => (
         <div
           key={todo._id}

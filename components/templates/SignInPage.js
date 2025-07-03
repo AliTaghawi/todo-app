@@ -17,7 +17,7 @@ const SignInPage = () => {
   const { status } = useSession();
 
   useEffect(() => {
-    if (status === "authenticated") router.back();
+    if (status === "authenticated") router.replace("/");
   }, [status]);
 
   const clickHandler = async () => {

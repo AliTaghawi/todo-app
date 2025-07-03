@@ -9,6 +9,7 @@ import { CiEdit } from "react-icons/ci";
 import ProfileForm from "@/modules/ProfileForm";
 import ProfileDetails from "@/modules/ProfileDetails";
 import ChangePassword from "@/modules/ChangePassword";
+import DeleteAccountForm from "@/modules/DeleteAccountForm";
 
 const buttonStyle =
   "bg-neutral-400 text-neutral-900 hover:bg-neutral-300 hover:outline-neutral-900 hover:outline-1 py-0.5 px-4 rounded-md mt-8";
@@ -21,7 +22,7 @@ const DashboardPage = () => {
   });
   const [edit, setEdit] = useState(false);
   const [updatePass, setUpdatePass] = useState(false);
-  const [del, setDel] = useState(false)
+  const [del, setDel] = useState(false);
   const { status } = useSession();
   const router = useRouter();
 
@@ -56,11 +57,14 @@ const DashboardPage = () => {
       headers: { "Content-Type": "application/json" },
     });
     const res = await result.json();
-    console.log(res);
     if (res.error) {
       toast.error(res.error);
     } else {
       toast.success(res.message);
+      setProfileData((prev) => ({
+        ...prev,
+        completed: prev.name && prev.lastName,
+      }));
       setEdit(false);
     }
   };
@@ -73,7 +77,11 @@ const DashboardPage = () => {
         {!edit ? (
           <button
             className="ml-auto cursor-pointer"
-            onClick={() => setEdit(true)}
+            onClick={() => {
+              setEdit(true);
+              setDel(false);
+              setUpdatePass(false);
+            }}
           >
             <CiEdit />
           </button>
@@ -83,12 +91,23 @@ const DashboardPage = () => {
         <>
           <ProfileDetails data={profileData} />
           <div className="flex justify-between items-center gap-8">
-            <button className={buttonStyle} onClick={() => setUpdatePass(true)}>
+            <button
+              className={buttonStyle}
+              onClick={() => {
+                setUpdatePass(true);
+                setDel(false);
+                setEdit(false);
+              }}
+            >
               Change password
             </button>
             <button
               className={`${buttonStyle} bg-red-300 text-red-800 hover:bg-red-200 hover:outline-red-800`}
-              onClick={() => setDel(true)}
+              onClick={() => {
+                setDel(true);
+                setUpdatePass(false);
+                setEdit(false);
+              }}
             >
               Delete account
             </button>
@@ -104,6 +123,7 @@ const DashboardPage = () => {
         />
       )}
       {updatePass ? <ChangePassword setUpdatePass={setUpdatePass} /> : null}
+      {del ? <DeleteAccountForm setDel={setDel} styles={buttonStyle} /> : null}
       <Toaster />
     </div>
   );
