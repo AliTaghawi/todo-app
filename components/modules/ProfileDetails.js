@@ -13,6 +13,10 @@ const ProfileDetails = ({ data }) => {
         <span className="text-neutral-500">Email:</span>
         <p>{data.email}</p>
       </div>
+      <div className="flex items-center text-neutral-800 gap-2">
+        <span className="text-neutral-500">Joined:</span>
+        <p>{new Date(data.createdAt).toLocaleDateString()}</p>
+      </div>
     </div>
   );
 };

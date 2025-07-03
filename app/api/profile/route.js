@@ -25,6 +25,7 @@ export async function GET(req) {
       name: user.name,
       lastName: user.lastName,
       email: user.email,
+      createdAt: user.createdAt,
     });
   } catch (error) {
     console.log(error);
@@ -109,11 +110,13 @@ export async function DELETE(req) {
       );
     }
 
-    const result = await User.deleteOne({email: user.email})
-    console.log(result)
+    const result = await User.deleteOne({ email: user.email });
+    console.log(result);
 
-    return NextResponse.json({message: "User deleted successfully"}, {status: 200})
-    
+    return NextResponse.json(
+      { message: "User deleted successfully" },
+      { status: 200 }
+    );
   } catch (error) {
     console.log(error);
     return NextResponse.json(
