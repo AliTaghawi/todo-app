@@ -32,4 +32,12 @@ const todoEditSchema = todoSchema.append({
   }),
 });
 
-export { signinSchema, registerSchema, todoSchema, todoEditSchema };
+const changePasswordSchema = Joi.object({
+  newPassword: Joi.string().min(8).required(),
+  repeatPassword: Joi.any()
+    .valid(Joi.ref("newPassword"))
+    .required()
+    .messages({ "any.only": "Password repeat must match" }),
+});
+
+export { signinSchema, registerSchema, todoSchema, todoEditSchema, changePasswordSchema };
