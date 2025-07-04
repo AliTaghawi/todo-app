@@ -36,7 +36,7 @@ export async function POST(req) {
       );
     }
 
-    user.todos.push({ title, description, status });
+    user.todos.push({ title, description, status, deadline });
     user.save();
     return NextResponse.json(
       { message: "Todo created successfully" },
@@ -100,7 +100,13 @@ export async function PATCH(req) {
     const { _id, title, description, status, deadline } = await req.json();
 
     try {
-      await todoEditSchema.validateAsync({ _id, title, description, status, deadline });
+      await todoEditSchema.validateAsync({
+        _id,
+        title,
+        description,
+        status,
+        deadline,
+      });
     } catch (error) {
       console.log(error.details[0]);
       return NextResponse.json(
@@ -116,6 +122,7 @@ export async function PATCH(req) {
           "todos.$.title": title,
           "todos.$.description": description,
           "todos.$.status": status,
+          "todos.$.deadline": deadline,
         },
       }
     );
@@ -156,9 +163,9 @@ export async function DELETE(req) {
       return NextResponse.json({ error: "Id is not valid!" }, { status: 422 });
     }
 
-    await user.todos.pull({_id});
-    await user.save()
-    
+    await user.todos.pull({ _id });
+    await user.save();
+
     return NextResponse.json(
       { message: "Todo deleted successfully" },
       { status: 200 }
