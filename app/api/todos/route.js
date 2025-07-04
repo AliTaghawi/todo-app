@@ -97,10 +97,10 @@ export async function PATCH(req) {
       return NextResponse.json({ error: "Can't find user!" }, { status: 404 });
     }
 
-    const { _id, title, description, status } = await req.json();
+    const { _id, title, description, status, deadline } = await req.json();
 
     try {
-      await todoEditSchema.validateAsync({ _id, title, description, status });
+      await todoEditSchema.validateAsync({ _id, title, description, status, deadline });
     } catch (error) {
       console.log(error.details[0]);
       return NextResponse.json(
