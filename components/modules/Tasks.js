@@ -1,8 +1,9 @@
 import Link from "next/link";
+import toast, { Toaster } from "react-hot-toast";
+import { LuCalendarClock } from "react-icons/lu";
 import { RiMastodonLine, RiDeleteBin2Line } from "react-icons/ri";
 import { CiEdit } from "react-icons/ci";
 import { BiLeftArrow, BiRightArrow } from "react-icons/bi";
-import toast from "react-hot-toast";
 import { buttonColor } from "@/utils/constants";
 
 const buttonStyle = "text-sm px-4 py-0.5 rounded-md text-white flex items-center gap-0.5 hover:opacity-80 cursor-pointer";
@@ -62,7 +63,10 @@ const Tasks = ({ data, fetchTodos, next, back }) => {
               </Link>
             </div>
           </div>
-          <RiMastodonLine />
+          <div className="flex items-start justify-between mt-2">
+            <RiMastodonLine />
+            <p className="text-neutral-500 text-sm flex items-center gap-1">{new Date(todo.deadline).toLocaleDateString()}<LuCalendarClock /></p>
+          </div>
           <h4 className="text-sm font-semibold">{todo.title}</h4>
           <p className="text-neutral-500 text-sm">{todo.description}</p>
           <div className="flex justify-between items-center mt-2">
@@ -91,6 +95,7 @@ const Tasks = ({ data, fetchTodos, next, back }) => {
           </div>
         </div>
       ))}
+      <Toaster />
     </>
   );
 };

@@ -23,11 +23,11 @@ export async function POST(req) {
       return NextResponse.json({ error: "Can't find user!" }, { status: 404 });
     }
 
-    const { title, description, status } = await req.json();
+    const { title, description, status, deadline } = await req.json();
 
     //validation
     try {
-      await todoSchema.validateAsync({ title, description, status });
+      await todoSchema.validateAsync({ title, description, status, deadline });
     } catch (error) {
       console.log(error.details[0]);
       return NextResponse.json(

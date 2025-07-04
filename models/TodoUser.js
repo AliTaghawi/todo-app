@@ -1,3 +1,4 @@
+import { required } from "joi";
 import { Schema, model, models } from "mongoose";
 
 const todoUserSchema = new Schema(
@@ -21,6 +22,11 @@ const todoUserSchema = new Schema(
             type: String,
             enum: ["inprogress", "done", "review", "todo"],
             required: true,
+          },
+          deadline: {
+            type: Date,
+            default: new Date(),
+            required: true
           },
         },
       ],

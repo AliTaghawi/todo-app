@@ -21,6 +21,7 @@ const todoSchema = Joi.object({
     .required()
     .regex(/todo|inprogress|done|review/)
     .message("Invalid status!"),
+  deadline: Joi.date().greater("now").required(),
 });
 
 const todoEditSchema = todoSchema.append({
@@ -40,4 +41,10 @@ const changePasswordSchema = Joi.object({
     .messages({ "any.only": "Password repeat must match" }),
 });
 
-export { signinSchema, registerSchema, todoSchema, todoEditSchema, changePasswordSchema };
+export {
+  signinSchema,
+  registerSchema,
+  todoSchema,
+  todoEditSchema,
+  changePasswordSchema,
+};

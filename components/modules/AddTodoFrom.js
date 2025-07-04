@@ -2,13 +2,13 @@
 
 import { useEffect, useState } from "react";
 import toast, { Toaster } from "react-hot-toast";
+import DatePicker from "react-multi-date-picker"
 import { BsAlignStart } from "react-icons/bs";
 import { FiSettings } from "react-icons/fi";
 import { AiOutlineFileSearch } from "react-icons/ai";
 import { MdDoneAll } from "react-icons/md";
 import RadioButton from "components/elements/RadioButton";
 import { useRouter } from "next/navigation";
-import Link from "next/link";
 
 const textStyle = "bg-white py-0.5 px-2.5 rounded-md outline-0 w-full";
 const buttonStyle =
@@ -19,6 +19,7 @@ const AddTodoFrom = ({ todoId }) => {
     title: "",
     description: "",
     status: "todo",
+    deadline: new Date(),
   });
 
   useEffect(() => {
@@ -38,7 +39,12 @@ const AddTodoFrom = ({ todoId }) => {
     setData((prev) => ({ ...prev, [name]: value }));
   };
 
+  const dateHandler = (e) => {
+    setData(prev => ({...prev, deadline: new Date(e)}))
+  }
+
   const addHandler = async () => {
+    console.log(data)
     const result = await fetch("/api/todos", {
       method: "POST",
       body: JSON.stringify(data),
@@ -132,6 +138,10 @@ const AddTodoFrom = ({ todoId }) => {
         >
           <MdDoneAll />
         </RadioButton>
+      </div>
+      <div className="mt-8">
+        <label>Deadline: </label>
+        <DatePicker name="deadline" value={data.deadline} onChange={dateHandler} style={{background: "white", paddingLeft: "10px"}} />
       </div>
       {todoId ? (
         <div className="flex justify-between items-center">
