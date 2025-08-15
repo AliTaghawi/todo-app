@@ -2,7 +2,7 @@ import Link from "next/link";
 import { Toaster } from "react-hot-toast";
 
 const inputStyles =
-  "shadow-[0_3px_10px] shadow-black/20 py-2 px-5 rounded-lg w-[300px]";
+  "shadow-[0_3px_10px] shadow-black/20 py-2 px-5 rounded-lg min-[521px]:w-[300px] w-full";
 
 const SignForm = ({ data, setData, clickHandler, register = false }) => {
   const changeHandler = (e) => {
@@ -11,7 +11,7 @@ const SignForm = ({ data, setData, clickHandler, register = false }) => {
   };
 
   return (
-    <div className=" bg-white mt-20 mx-auto p-8 rounded-2xl w-[500px] text-center flex flex-col items-center gap-8">
+    <div className=" bg-white mt-20 mx-auto p-4 min-[570px]:px-8 rounded-2xl max-w-[500px] text-center flex flex-col items-center gap-8">
       <h2 className="text-xl font-bold text-neutral-700">
         {register ? "Registration Form" : "LogIn Form"}
       </h2>
@@ -47,11 +47,11 @@ const SignForm = ({ data, setData, clickHandler, register = false }) => {
       >
         {register ? "Register" : "LogIn"}
       </button>
-      <div className="flex gap-2">
-        <p>
-          {register ? "If you have a account?" : "If you don't have a account?"}
+      <div className="">
+        <p className="inline">
+          {register ? "If you have a account? " : "If you don't have a account? "}
         </p>
-        <Link href={register ? "/signin" : "signup"} className="text-blue-700">
+        <Link href={register ? "/signin" : "signup"} className="text-blue-700 inline">
           {register ? "SignIn" : "SignUp"}
         </Link>
       </div>
