@@ -37,7 +37,7 @@ const Tasks = ({ data, fetchTodos, next, back }) => {
   return (
     <>
       {!data?.length ? (
-        <p className="text-center m-2">No task to show in this filed!</p>
+        <p className="text-center m-2">No task to show in this field!</p>
       ) : null}
       {data?.map((todo) => (
         <div
